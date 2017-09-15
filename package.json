@@ -1,0 +1,29 @@
+{
+  "name": "trifid-handler-file",
+  "description": "File handler for Trifid",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/zazuko/trifid-handler-file",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zazuko/trifid-handler-file.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zazuko/trifid-handler-file/issues"
+  },
+  "scripts": {
+    "test": "standard && mocha"
+  },
+  "dependencies": {
+    "rdf-body-parser": "^1.1.1",
+    "rdf-ext": "^1.1.0",
+    "rdf-utils-dataset": "^1.0.0",
+    "rdf-utils-fs": "^1.0.0"
+  },
+  "devDependencies": {
+    "express": "^4.15.4",
+    "standard": "^10.0.3",
+    "supertest": "^3.0.0",
+    "tbbt-ld": "^1.0.0"
+  }
+}
