@@ -17,6 +17,8 @@
   "dependencies": {
     "rdf-body-parser": "^1.1.1",
     "rdf-ext": "^1.1.0",
+    "rdf-formats-common": "^1.2.0",
+    "rdf-serializer-jsonld-ext": "^1.3.0",
     "rdf-utils-dataset": "^1.0.0",
     "rdf-utils-fs": "^1.0.0"
   },

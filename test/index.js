@@ -104,6 +104,26 @@ describe('trifid-handler-file', () => {
       .expect(200)
   })
 
+  it('should compact JSON-LD responses', () => {
+    const app = express()
+
+    const handler = new Handler({filename: filenameDataset})
+
+    app.use(attachIri)
+    app.use(handler.handle)
+
+    return request(app)
+      .get('/data/person/amy-farrah-fowler')
+      .set('accept', 'application/ld+json')
+      .then((res) => {
+        const jsonld = JSON.parse(res.text)
+
+        assert(!Array.isArray(jsonld))
+        assert.equal(jsonld['@id'], 'http://localhost:8080/data/person/amy-farrah-fowler')
+        assert.equal(jsonld['http://schema.org/givenName'], 'Amy')
+      })
+  })
+
   it('should send a 404 response for unknown resources', () => {
     const app = express()
 

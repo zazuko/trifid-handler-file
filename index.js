@@ -1,7 +1,20 @@
+const formats = require('rdf-formats-common')()
 const fromFile = require('rdf-utils-fs/fromFile')
 const rdf = require('rdf-ext')
 const rdfBodyParser = require('rdf-body-parser')
 const resourcesToGraph = require('rdf-utils-dataset/resourcesToGraph')
+const JsonLdSerializer = require('rdf-serializer-jsonld-ext')
+
+const jsonLdSerializer = new JsonLdSerializer({
+  process: [
+    {flatten: true},
+    {compact: true},
+    {outputFormat: 'string'}
+  ]
+})
+
+formats.serializers['application/json'] = jsonLdSerializer
+formats.serializers['application/ld+json'] = jsonLdSerializer
 
 class FileHandler {
   constructor (options) {
@@ -15,7 +28,7 @@ class FileHandler {
   }
 
   _handle (req, res, next) {
-    rdfBodyParser.attach(req, res).then(() => {
+    rdfBodyParser.attach(req, res, {formats: formats}).then(() => {
       return this.load()
     }).then(() => {
       const dataset = this.dataset.match(null, null, null, rdf.namedNode(req.iri))
