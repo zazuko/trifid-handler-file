@@ -11,7 +11,7 @@ describe('trifid-handler-file', () => {
   const filenameGraph = require.resolve('tbbt-ld/dist/tbbt.nt')
   const filenameDataset = require.resolve('tbbt-ld/dist/tbbt.nq')
   const attachIri = (req, res, next) => {
-    req.iri = url.resolve('http://localhost:8080/', req.url)
+    req.iri = url.resolve('http://localhost:8080/', decodeURI(req.url))
 
     next()
   }
@@ -85,6 +85,23 @@ describe('trifid-handler-file', () => {
         assert.notEqual(text.indexOf(includeNt), -1)
         assert.equal(text.indexOf(excludeNt), -1)
       })
+  })
+
+  it('should handle unicode characters', () => {
+    const app = express()
+
+    const handler = new Handler({
+      filename: 'test/support/unicode.ttl',
+      split: true
+    })
+
+    app.use(attachIri)
+    app.use(handler.handle)
+
+    return request(app)
+      .get('/%C3%BCmlaut')
+      .set('accept', 'text/turtle')
+      .expect(200)
   })
 
   it('should send a 404 response for unknown resources', () => {
